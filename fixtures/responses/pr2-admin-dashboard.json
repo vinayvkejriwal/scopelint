@@ -1,0 +1,13 @@
+{
+  "verdicts": [
+    {
+      "area": "Admin analytics endpoint and metrics",
+      "verdict": "out_of_scope",
+      "matched_clause": "2.1",
+      "rationale": "The new endpoint aggregates member and points metrics for administrative reporting. Admin analytics and reporting dashboards are explicitly excluded from the agreement.",
+      "estimated_effort_hours": 8,
+      "change_order_draft": "Hello, the pull request adds an administrative analytics endpoint and a metrics module that reports member and loyalty-point totals. While these operational insights may be valuable, clause 2.1 explicitly excludes admin analytics or reporting dashboards from the current agreement. Completing this feature would include finalizing the aggregation rules, reviewing access controls, expanding tests, documenting the endpoint, and supporting deployment verification. We estimate approximately 8 hours for that work. Please let us know if you would like us to prepare a formal change order so the team can schedule this enhancement after written approval."
+    }
+  ],
+  "summary": { "in_scope": 0, "out_of_scope": 1, "gray_area": 0 }
+}

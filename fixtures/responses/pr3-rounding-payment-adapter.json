@@ -1,0 +1,21 @@
+{
+  "verdicts": [
+    {
+      "area": "Accrual rounding correction",
+      "verdict": "in_scope",
+      "matched_clause": "1.2",
+      "rationale": "Rounding fractional-dollar purchases down is a correction to the per-purchase points calculation. It directly supports the points accrual engine deliverable.",
+      "estimated_effort_hours": 1,
+      "change_order_draft": null
+    },
+    {
+      "area": "Payment provider adapter change",
+      "verdict": "out_of_scope",
+      "matched_clause": "2.2",
+      "rationale": "The payment module is changed from a stubbed adapter to provider-specific authorization behavior. Clause 2.2 explicitly excludes changes to the payment provider integration.",
+      "estimated_effort_hours": 4,
+      "change_order_draft": "Hello, the pull request changes the payment provider adapter from a stub to an authorization flow with provider-specific validation and response handling. This work falls outside the current agreement because clause 2.2 excludes changes to the payment provider integration. To deliver it safely, we would confirm the provider requirements, implement and secure the adapter, add failure-path tests, update configuration and documentation, and support integration verification. We estimate approximately 4 hours for this work. Please let us know if you would like us to prepare a formal change order and schedule the payment integration work after approval."
+    }
+  ],
+  "summary": { "in_scope": 1, "out_of_scope": 1, "gray_area": 0 }
+}

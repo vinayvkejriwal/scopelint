@@ -1,0 +1,13 @@
+{
+  "verdicts": [
+    {
+      "area": "Points accrual engine and rules",
+      "verdict": "in_scope",
+      "matched_clause": "1.2",
+      "rationale": "The changes add validation and per-purchase points rules, including a high-value purchase bonus. The accompanying tests directly support the points accrual deliverable.",
+      "estimated_effort_hours": 6,
+      "change_order_draft": null
+    }
+  ],
+  "summary": { "in_scope": 1, "out_of_scope": 0, "gray_area": 0 }
+}

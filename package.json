@@ -1,0 +1,34 @@
+{
+  "name": "scopelint",
+  "version": "0.1.0",
+  "description": "Lint code changes against a project's statement of work.",
+  "type": "module",
+  "bin": {
+    "scopelint": "./bin/scopelint.mjs"
+  },
+  "scripts": {
+    "check": "tsx src/cli.ts check",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "cli",
+    "github-actions",
+    "scope-creep"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^14.0.0",
+    "dotenv": "^17.0.0",
+    "openai": "^6.0.0",
+    "tsx": "^4.20.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.2.0"
+  }
+}

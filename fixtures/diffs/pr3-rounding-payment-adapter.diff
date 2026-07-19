@@ -1,0 +1,47 @@
+diff --git a/src/accrual.ts b/src/accrual.ts
+index 3c48749..61ba1dd 100644
+--- a/src/accrual.ts
++++ b/src/accrual.ts
+@@ -1,3 +1,3 @@
+ export function calculateAccrual(purchaseCents: number): number {
+-  return purchaseCents / 100;
++  return Math.floor(purchaseCents / 100);
+ }
+diff --git a/src/payments/provider.ts b/src/payments/provider.ts
+index 70c1059..77ec981 100644
+--- a/src/payments/provider.ts
++++ b/src/payments/provider.ts
+@@ -1,5 +1,9 @@
+-export const paymentProvider = "stub";
++export const paymentProvider = "acme-pay";
+ 
+-export async function authorizePayment(_amountCents: number): Promise<{ status: "stubbed" }> {
+-  return { status: "stubbed" };
++export async function authorizePayment(amountCents: number): Promise<{ status: "authorized"; amountCents: number }> {
++  if (!Number.isInteger(amountCents) || amountCents <= 0) {
++    throw new Error("amountCents must be a positive integer");
++  }
++
++  return { status: "authorized", amountCents };
+ }
+diff --git a/test/api.test.ts b/test/api.test.ts
+index d1b14fc..05176fe 100644
+--- a/test/api.test.ts
++++ b/test/api.test.ts
+@@ -1,6 +1,7 @@
+ import request from "supertest";
+ import { describe, expect, it } from "vitest";
+ import { createApp } from "../src/app.js";
++import { calculateAccrual } from "../src/accrual.js";
+ 
+ describe("Acme loyalty API", () => {
+   it("enrolls, accrues, redeems, and returns a balance", async () => {
+@@ -10,4 +11,8 @@ describe("Acme loyalty API", () => {
+     await request(app).post("/redeem").send({ memberId: "m-1", points: 2 }).expect(200);
+     await request(app).get("/balance/m-1").expect(200, { memberId: "m-1", balance: 3 });
+   });
++
++  it("rounds fractional-dollar purchases down to whole loyalty points", () => {
++    expect(calculateAccrual(599)).toBe(5);
++  });
+ });

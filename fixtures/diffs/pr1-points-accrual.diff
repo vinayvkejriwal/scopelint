@@ -1,0 +1,37 @@
+diff --git a/src/accrual.ts b/src/accrual.ts
+index 3c48749..62e5b27 100644
+--- a/src/accrual.ts
++++ b/src/accrual.ts
+@@ -1,3 +1,9 @@
+ export function calculateAccrual(purchaseCents: number): number {
+-  return purchaseCents / 100;
++  if (!Number.isInteger(purchaseCents) || purchaseCents <= 0) {
++    throw new Error("purchaseCents must be a positive integer");
++  }
++
++  const basePoints = Math.floor(purchaseCents / 100);
++  const highValuePurchaseBonus = purchaseCents >= 10_000 ? 100 : 0;
++  return basePoints + highValuePurchaseBonus;
+ }
+diff --git a/test/api.test.ts b/test/api.test.ts
+index d1b14fc..bc16a62 100644
+--- a/test/api.test.ts
++++ b/test/api.test.ts
+@@ -1,6 +1,7 @@
+ import request from "supertest";
+ import { describe, expect, it } from "vitest";
+ import { createApp } from "../src/app.js";
++import { calculateAccrual } from "../src/accrual.js";
+ 
+ describe("Acme loyalty API", () => {
+   it("enrolls, accrues, redeems, and returns a balance", async () => {
+@@ -10,4 +11,9 @@ describe("Acme loyalty API", () => {
+     await request(app).post("/redeem").send({ memberId: "m-1", points: 2 }).expect(200);
+     await request(app).get("/balance/m-1").expect(200, { memberId: "m-1", balance: 3 });
+   });
++
++  it("applies per-purchase rules and the high-value purchase bonus", () => {
++    expect(calculateAccrual(5_999)).toBe(59);
++    expect(calculateAccrual(10_000)).toBe(200);
++  });
+ });

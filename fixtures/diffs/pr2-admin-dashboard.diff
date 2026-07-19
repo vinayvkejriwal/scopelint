@@ -1,0 +1,52 @@
+diff --git a/src/analytics.ts b/src/analytics.ts
+new file mode 100644
+index 0000000..a834d5e
+--- /dev/null
++++ b/src/analytics.ts
+@@ -0,0 +1,9 @@
++import type { LoyaltyStore } from "./store.js";
++
++export function getLoyaltyMetrics(store: LoyaltyStore) {
++  const members = store.members();
++  return {
++    totalMembers: members.length,
++    totalPoints: members.reduce((sum, member) => sum + member.points, 0),
++  };
++}
+diff --git a/src/app.ts b/src/app.ts
+index 6c42023..ccb0d6f 100644
+--- a/src/app.ts
++++ b/src/app.ts
+@@ -1,5 +1,6 @@
+ import express from "express";
+ import { calculateAccrual } from "./accrual.js";
++import { getLoyaltyMetrics } from "./analytics.js";
+ import { LoyaltyStore } from "./store.js";
+ 
+ export function createApp(store = new LoyaltyStore()) {
+@@ -52,5 +53,9 @@ export function createApp(store = new LoyaltyStore()) {
+     }
+   });
+ 
++  app.get("/admin/analytics", (_request, response) => {
++    return response.json(getLoyaltyMetrics(store));
++  });
++
+   return app;
+ }
+diff --git a/test/api.test.ts b/test/api.test.ts
+index d1b14fc..6c933b3 100644
+--- a/test/api.test.ts
++++ b/test/api.test.ts
+@@ -10,4 +10,11 @@ describe("Acme loyalty API", () => {
+     await request(app).post("/redeem").send({ memberId: "m-1", points: 2 }).expect(200);
+     await request(app).get("/balance/m-1").expect(200, { memberId: "m-1", balance: 3 });
+   });
++
++  it("returns aggregate loyalty metrics for the admin analytics endpoint", async () => {
++    const app = createApp();
++    await request(app).post("/enroll").send({ memberId: "m-1", email: "ada@example.com" }).expect(201);
++    await request(app).post("/accrue").send({ memberId: "m-1", purchaseCents: 500 }).expect(200);
++    await request(app).get("/admin/analytics").expect(200, { totalMembers: 1, totalPoints: 5 });
++  });
+ });
