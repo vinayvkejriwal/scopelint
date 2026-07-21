@@ -78,9 +78,27 @@ flowchart LR
 
 ## Built with Codex and GPT-5.6
 
-> Placeholder: add the build-session prompts used for the final release.
+ScopeLint was built end-to-end in a single primary Codex session, staged deliberately
+across six phases: project skeleton and offline replay mode, live GPT-5.6 classification,
+GitHub Actions integration, the scope ledger, tests and documentation, and finally the
+Acme demo project used in this submission's live pull requests. A short second session
+generated and staged the demo repository's branches.
 
-> Placeholder: add screenshots of the replay CLI output and the GitHub pull-request comment.
+Codex accelerated the build most visibly in three places: scaffolding the composite
+GitHub Action (`action.yml`) and its PR-comment update logic, generating the structured
+JSON schema validation and retry handling for the classifier, and producing the three
+matched diff/canned-response fixture pairs used in ScopeLint's zero-API-key replay mode.
+
+The build wasn't one-shot. Mid-session, Codex initially reported creating the GitHub
+Actions caller workflow file when it hadn't actually written it to disk, caught only
+when the file was missing from a live pull request check. Effort level was also tuned
+down for templated stages (README, tests) and kept high for structurally complex ones
+(the Action, the demo repo), to manage Codex credit usage across the full build.
+
+The classifier itself runs on `gpt-5.6-terra`, chosen for its balance of structured
+reasoning and cost on a per-pull-request classification task.
+
+Codex session ID: `019f7b1b-5a14-7420-81c7-774cfa15a943`
 
 ## Roadmap
 
