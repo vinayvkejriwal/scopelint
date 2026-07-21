@@ -100,6 +100,10 @@ reasoning and cost on a per-pull-request classification task.
 
 Codex session ID: `019f7b1b-5a14-7420-81c7-774cfa15a943`
 
+![ScopeLint verdict comment on a pull request](docs/screenshots/Verdict-comment1.png)
+![ScopeLint verdict comment on a pull request](docs/screenshots/Verdict-comment2.png)
+![ScopeLint running automatically in GitHub Actions](docs/screenshots/Actions-passing.png)
+
 ## Roadmap
 
 - Hosted dashboard and multi-repository views
