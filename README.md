@@ -1,3 +1,5 @@
+![ScopeLint: checks every pull request against your statement of work, automatically](docs/screenshots/title-card.png)
+
 # ScopeLint
 
 ScopeLint lints code changes against the contract. It compares a pull-request diff with the repository's `scope.md` statement of work, classifies each functional area as in scope, out of scope, or a gray area, and drafts a client-ready change order when work falls outside the agreement.
